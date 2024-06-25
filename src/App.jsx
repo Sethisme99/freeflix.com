@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />}/>
-        <Route basename="/freeflix.com" path="/details/:id" element={<Details />} />
+        <Route path="/details/:id" element={<Details />} />
         <Route path="/myaccount" element={
           <Protectedroute><Myaccount /></Protectedroute>}/>
       </Routes>

@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/freeflix.com/static/css/main.904fbbff.css",
-    "main.js": "/freeflix.com/static/js/main.d823ab3b.js",
+    "main.js": "/freeflix.com/static/js/main.f60fe4c2.js",
     "static/js/453.64512fd7.chunk.js": "/freeflix.com/static/js/453.64512fd7.chunk.js",
     "index.html": "/freeflix.com/index.html",
     "main.904fbbff.css.map": "/freeflix.com/static/css/main.904fbbff.css.map",
-    "main.d823ab3b.js.map": "/freeflix.com/static/js/main.d823ab3b.js.map",
+    "main.f60fe4c2.js.map": "/freeflix.com/static/js/main.f60fe4c2.js.map",
     "453.64512fd7.chunk.js.map": "/freeflix.com/static/js/453.64512fd7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.904fbbff.css",
-    "static/js/main.d823ab3b.js"
+    "static/js/main.f60fe4c2.js"
   ]
 }

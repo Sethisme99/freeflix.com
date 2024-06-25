@@ -23,9 +23,10 @@ const Movie = ({item}) => {
        await updateDoc(movieID, {
          savedShows: arrayUnion({
            id: item.id,
-           title: item.title,
+           title: item.title || item.name,
            img: item.backdrop_path,
            poster: item.poster_path,
+           overview: item.overview,
          }),
        });
      } else {
@@ -41,12 +42,12 @@ const Movie = ({item}) => {
   return (
      <div className='w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2'>
      <img className='w-full h-auto block' src={`https://image.tmdb.org/t/p/w500/${item?.backdrop_path}`} alt={item?.title || item?.name} />
-     <div className='absolute top-0 left-0 w-full h-full hover:bg-black/80 opacity-0 hover:opacity-100 text-white'>
-          <p onDoubleClick={goToDetails} className='white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center flex-col gap-1 select-none'>
+     <div className='absolute top-0 left-0 w-full h-full text-white'>
+          <p onClick={goToDetails} className='white-space-normal text-xs md:text-sm font-bold flex justify-center items-center h-full text-center flex-col gap-1 select-none hover:bg-black/80 opacity-0 hover:opacity-100'>
           <span className='text-[10px] font-normal text-red-400'>Double click to play</span>{item?.title || item?.name}</p>
           <p onClick={savedShows}>
                {/*this mean if like is true show hearth if false show regheart*/}
-               {like ? <FaHeart className='absolute top-4 left-4 text-gray-300' /> : <FaRegHeart className='absolute top-4 left-4 text-gray-300' />}
+               {like ? <FaHeart className='absolute top-4 left-4 text-gray-300 font-bold' /> : <FaRegHeart className='absolute top-4 left-4 text-gray-300' />}
           </p>
      </div>
 </div>

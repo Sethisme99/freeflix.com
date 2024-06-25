@@ -1,64 +1,11 @@
-import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import "../index.css";
 
-const YOUTUBE_API_KEY = 'AIzaSyARcJfGWQCK5sM2J_xGWFlkoizVKK-jgHI'; // YouTube API key
 
 const Details = () => {
 
   const location = useLocation();
-  const { item } = location.state;
-  const [trailerUrl, setTrailerUrl] = useState('');
-  const [trailerDetails, setTrailerDetails] = useState(null);
-
-  useEffect(() => {
-    const fetchTrailer = async () => {
-      try {
-        const searchParams = {
-          part: 'snippet',
-          maxResults: 1,
-          q: `${item.title || item.name} trailer`,
-          key: YOUTUBE_API_KEY,
-          type: 'video',
-        };
-
-        console.log('Search Params:', searchParams); // Log the search parameters
-
-        const searchResponse = await axios.get('https://www.googleapis.com/youtube/v3/search', { params: searchParams });
-
-        console.log('Search Response:', searchResponse); // Log the search response
-
-        if (searchResponse.data.items.length > 0) {
-          const trailerId = searchResponse.data.items[0].id.videoId;
-          setTrailerUrl(`https://www.youtube.com/embed/${trailerId}`);
-
-          // Fetch trailer details
-          const detailsParams = {
-            part: 'snippet,contentDetails,statistics',
-            id: trailerId,
-            key: YOUTUBE_API_KEY,
-          };
-
-          console.log('Details Params:', detailsParams); // Log the details parameters
-
-          const detailsResponse = await axios.get('https://www.googleapis.com/youtube/v3/videos', { params: detailsParams });
-
-          console.log('Details Response:', detailsResponse); // Log the details response
-
-          if (detailsResponse.data.items.length > 0) {
-            setTrailerDetails(detailsResponse.data.items[0]);
-          }
-        } else {
-          console.error('No trailer found');
-        }
-      } catch (error) {
-        console.error('Error fetching trailer:', error);
-      }
-    };
-
-    fetchTrailer();
-  }, [item.title]);
+  const { item } = location.state;  
 
   return (
     <div className="relative min-h-screen bg-gray-900 text-white">
@@ -89,34 +36,21 @@ const Details = () => {
             </button>
           </div>
         </div>
-
-        {/* Video Player Section */}
-        {trailerUrl && (
-          <div className="w-full h-full max-w-6xl mb-12">
-            <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                className="w-full h-[300px]"
-                src={trailerUrl}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-          </div>
-        )}
-
-        {/* Trailer Details Section */}
-        {trailerDetails && (
-          <div className="w-full max-w-6xl bg-gray-800 rounded-md p-6 space-y-4 shadow-lg">
-            <h2 className="text-3xl font-semibold">{trailerDetails.snippet.title}</h2>
-            <p><span className="font-bold">Channel:</span> {trailerDetails.snippet.channelTitle}</p>
-            <p><span className="font-bold">Published:</span> {new Date(trailerDetails.snippet.publishedAt).toLocaleDateString()}</p>
-            <p className=' overflow-clip'><span className="font-bold">Description:</span> {trailerDetails.snippet.description}</p>
-            <p><span className="font-bold">Views:</span> {trailerDetails.statistics.viewCount}</p>
-            <p><span className="font-bold">Likes:</span> {trailerDetails.statistics.likeCount}</p>
-          </div>
-        )}
+        <div className="w-full max-w-6xl text-left mb-8">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4">Description</h2>
+          <p className="text-lg md:text-xl leading-relaxed">{item.overview}</p>
+        </div>
+        {/* Details Section */}
+        <div className="w-full max-w-6xl bg-gray-800 rounded-md p-6 space-y-4 shadow-lg mt-6">
+          <h2 className="text-3xl font-semibold">Details</h2>
+          <p><span className="font-bold">Genre:</span> Drama, Sci-Fi, Adventure</p>
+          <p><span className="font-bold">Release Date:</span> Dec 25, 2023</p>
+          <p><span className="font-bold">Country:</span> United Kingdom</p>
+          <p><span className="font-bold">Director:</span> N/A</p>
+          <p><span className="font-bold">Production:</span> Bad Wolf</p>
+          <p><span className="font-bold">Cast:</span> Ncuti Gatwa, Millie Gibson, Susan Twist</p>
+          <p className="text-gray-400">{item.overview}</p>
+        </div>
       </div>
     </div>
   );

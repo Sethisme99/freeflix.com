@@ -11,7 +11,6 @@ const Home = () => {
     <MovieRender contentID='2' title='TVSeries' subtitle='' fetchURL={requests.requestTVPopular}/>
     <MovieRender contentID='3' title='Horror' subtitle='' fetchURL={requests.requestHorror}/>
     <MovieRender contentID='4' title='Comedy' subtitle='' fetchURL={requests.requestComedy}/>
-    <MovieRender contentID='5' title='Documentaries' subtitle='' fetchURL={requests.requestDocumentaries}/>
     <MovieRender contentID='6' title='Recent Updated' subtitle='' fetchURL={requests.requestNowPlaying}/>
     <MovieRender contentID='7' title='Romance' subtitle='' fetchURL={requests.requestRomance}/>
     <MovieRender contentID='8' title='TVTopRated' subtitle='' fetchURL={requests.requestTVTopRated}/>

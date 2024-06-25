@@ -1,19 +1,19 @@
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import "../index.css";
 
 const Details = () => {
   const location = useLocation();
   const { item } = location.state || {};
+  const [trailer, setTrailer] = useState(null);
 
   useEffect(() => {
-    // If item exists, save it to local storage
     if (item) {
       localStorage.setItem('selectedItem', JSON.stringify(item));
+      fetchTrailer(item.title || item.name);
     }
   }, [item]);
 
-  // If item is not available in state, try to get it from local storage
   const savedItem = item || JSON.parse(localStorage.getItem('selectedItem'));
 
   if (!savedItem) {
@@ -23,6 +23,27 @@ const Details = () => {
       </div>
     );
   }
+
+  const fetchTrailer = async (title) => {
+    const API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY; // Replace with your YouTube API key
+    const query = `${title} trailer`;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&key=${API_KEY}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.items.length > 0) {
+        const trailerData = data.items[0];
+        setTrailer({
+          id: trailerData.id.videoId,
+          title: trailerData.snippet.title,
+          description: trailerData.snippet.description,
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching trailer:', error);
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-gray-900 text-white">
@@ -52,6 +73,18 @@ const Details = () => {
               Play
             </button>
           </div>
+          {trailer && (
+            <div className="w-full aspect-w-16 aspect-h-9 mb-8">
+              <iframe
+                className="w-full h-full"
+                src={`https://www.youtube.com/embed/${trailer.id}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          )}
         </div>
         <div className="w-full max-w-6xl text-left mb-8">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4">Description</h2>
@@ -74,3 +107,6 @@ const Details = () => {
 }
 
 export default Details;
+
+
+

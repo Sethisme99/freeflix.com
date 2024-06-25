@@ -1,11 +1,17 @@
 import { useLocation } from 'react-router-dom';
 import "../index.css";
 
-
 const Details = () => {
-
   const location = useLocation();
-  const { item } = location.state;  
+  const { item } = location.state || {};  // Provide a fallback value for item
+
+  if (!item) {
+    return (
+      <div className="relative min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <p>Item details not found. Please go back and select an item.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-gray-900 text-white">
@@ -54,7 +60,6 @@ const Details = () => {
       </div>
     </div>
   );
-
 }
 
-export default Details
+export default Details;
